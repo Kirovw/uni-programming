@@ -16,3 +16,4 @@ while True:
     print(even_sum)
     print(odd_sum)
 
+
