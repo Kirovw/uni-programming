@@ -1330,4 +1330,264 @@ print(librarian.print_info())
 print(library.print_all_books())
 print(library.print_all_readers())
 
+#✅ Задача 1: Филтриране на оценки
+#Напиши функция filter_grades(grades), която получава списък от оценки (числа) и връща речник с:
+#всички оценки над 5.00
+#най-висока оценка
+#средна оценка
+#брой отлични (≥ 5.50)
+def filter_grades(grades):
+    list_grades=[]
+    for x in grades:
+        if x>5.00:
+            list_grades.append(x)
+   
+    max_grade=None
+    for x in grades:
+        if max_grade is None or x>max_grade:
+            max_grade=x
+    
+    sum_score=0
+    for x in grades:
+        sum_score+=x
+    average_score=sum_score/len(grades)
+
+    count_excellent=0
+    for x in grades:
+        if x>=5.50:
+            count_excellent+=1
+    
+    return{
+        "list_grades":list_grades,
+        "max_grade":max_grade,
+        "average_score":average_score,
+        "count_excellent":count_excellent
+    }
+
+#✅ Задача 2: Проверка за парола
+#Напиши функция check_password(password), която връща True или False според следните правила:
+#Паролата трябва да:
+#✔ има поне 8 символа
+#✔ съдържа поне една главна буква
+#✔ съдържа поне една малка буква
+#✔ съдържа поне една цифра
+#✔ НЕ съдържа интервали
+
+def check_password(password):
+    if len(password)<8:
+        return False
+    has_upper=False
+    has_lower=False
+    has_digit=False
+    for x in password:
+        if x==" ":
+            return False
+        elif x.isupper():
+            has_upper=True
+        elif x.islower():
+            has_lower=True
+        elif x.isdigit():
+            has_digit=True
+    return has_upper and has_lower and has_digit
+print(check_password("Akirov1"))
+
+#✅ Задача 3: Анализ на списък
+#Напиши функция analyze_list(nums), която връща речник с:
+#най-малкото число
+#най-голямото
+#всички четни
+#всички числа, делими на 3
+#сума на числата
+#списък без повтарящи се елементи (set → list)
+def analyze_list(nums):
+   
+    min_num=None
+    for x in nums:
+        if min_num is None or x<min_num:
+            min_num=x
+    
+    max_num=None
+    for x in nums:
+        if max_num is None or max_num>x:
+            max_num=x
+    
+    list_even=[]
+    for x in nums:
+        if x%2==0:
+            list_even.append(x)
+    
+    list_odd_3=[]
+    for x in nums:
+        if x%3==0:
+            list_odd_3.append(x)
+    
+    sum_list=0
+    for x in nums:
+        sum_list+=x
+    
+    set_unique=set(nums)
+    return{
+        "min_num":min_num,
+        "max_num":max_num,
+        "list_even":list_even,
+        "list_odd_3":list_odd_3,
+        "sum_list":sum_list,
+        "set_unique":set_unique
+    }
+
+#✅ Задача 5: Комбинирани условия
+
+#Напиши функция special_numbers(nums), която връща списък с всички числа, които:
+#са положителни
+#са по-големи от 10
+#И са четни И делими на 5 ИЛИ
+#са отрицателни, но по-големи от -20
+#Тоест условието е:
+
+#(x > 10 AND x % 2 == 0 AND x % 5 == 0)
+#OR
+#(-20 < x < 0)
+def special_numbers(nums):
+    list_requierements=[]
+    for x in nums:
+        if x>0 and x>10 and x%2==0 and x%5==0:
+            list_requierements.append(x)
+        elif -20 < x < 0:
+            list_requierements.append(x)
+    return list_requierements
+print(special_numbers([20,30,40,50,60,70,5,-21]))
+
+#Задача за класове и обекти
+# 1️⃣ Клас Vehicle (базов клас)
+# Представя обща информация за превозно средство.
+# Атрибути:
+# brand
+# model
+# year
+# plate_number
+# Метод:
+# info() → връща текстова информация за автомобила
+
+# 2️⃣ Клас Car (наследява Vehicle)
+# Представя лек автомобил.
+# Допълнителни атрибути:
+# seats – брой седалки
+# fuel_type – бензин/дизел/електро
+# Допълнителен метод:
+# is_electric() → връща True ако fuel_type == "electric"
+
+# 3️⃣ Клас Truck (наследява Vehicle)
+# Представя камион.
+# Допълнителни атрибути:
+# max_load – максимален товар (в кг)
+# has_trailer – дали има ремарке (True/False)
+
+# 4️⃣ Клас ServiceCenter
+# Управлява всички превозни средства.
+# Атрибути:
+# name
+# vehicles – списък от всички автомобили
+# Методи:
+# add_vehicle(vehicle) – добавя Car или Truck
+# remove_vehicle(plate_number) – премахва по регистрационен номер
+# find_by_plate(plate_number) – връща превозното средство или None
+# list_all() – принтира всички автомобили
+# list_electric() – принтира само електрически коли (Car)
+# list_trucks_over(weight) – принтира всички камиони с товароносимост над дадена стойност
+
+# 5️⃣ Задачата трябва да направи:
+# Създай:
+# 2 коли
+# 2 камиона
+# 1 автосервиз
+# Добави всички превозни средства в сервиза.
+# Покажи:
+# всички превозни средства
+# само електрически коли
+# всички камиони с max_load > 3000 кг
+# Премахни превозно средство по регистрационен номер и покажи списъка отново.
+
+class Vehicle:
+    def __init__(self,brand,model,year,plate_number):
+        self.brand=brand
+        self.model=model
+        self.year=year
+        self.plate_number=plate_number
+        self.fuel_type = None
+        self.max_load = None
+    def print_info(self):
+        print(f"{self.brand},{self.model},{self.year},{self.plate_number}")
+    
+    def __str__(self):
+        return f"{self.brand} {self.model} {self.year} {self.plate_number}"
+class Car(Vehicle):
+    def __init__(self,brand,model,year,plate_number,seats,fuel_type):
+        super().__init__(brand,model,year,plate_number)
+        self.seats=seats
+        self.fuel_type=fuel_type
+    def is_electric(self):
+        return self.fuel_type=="electric"
+    def __str__(self):
+        return (
+            f"{self.brand}, {self.model}, {self.year}, {self.plate_number}, "
+            f"{self.seats}, {self.fuel_type}"
+        )
+class Truck(Vehicle):
+    def __init__(self,brand,model,year,plate_number,max_load,has_trailer):
+        super().__init__(brand,model,year,plate_number)
+        self.max_load=max_load
+        self.has_trailer=has_trailer
+    def __str__(self):
+        return (
+            f"{self.brand}, {self.model}, {self.year}, {self.plate_number}, "
+            f"{self.max_load}, {self.has_trailer}"
+        )
+class ServiceCenter:
+    def __init__(self,name):
+        self.name=name
+        self.vehicles=[]
+    def add_vehicles(self,vehicle):
+        self.vehicles.append(vehicle)
+    def remove_vehicle(self,plate_number):
+        for vehicle in self.vehicles:
+            if vehicle.plate_number==plate_number:
+                self.vehicles.remove(vehicle)
+                return True
+        return False
+    def find_by_plate(self,plate_number):
+        for vehicle in self.vehicles:
+            if vehicle.plate_number==plate_number:
+                return vehicle
+        return None
+    def list_all(self):
+        for vehicle in self.vehicles:
+            print(vehicle)
+    def list_electric(self):
+        for vehicle in self.vehicles:
+            if vehicle.fuel_type=="electric":
+                print(vehicle)
+    def list_trucks_over(self):
+        for vehicle in self.vehicles:
+            if vehicle.max_load!= None and vehicle.max_load>3000:
+                print(vehicle)
+
+car1 = Car("Tesla", "Model 3", 2020, "CA1234", 5, "electric")
+car2 = Car("BMW", "X5", 2018, "CB5678", 5, "diesel")
+
+truck1 = Truck("MAN", "TGX", 2017, "BT1111", 5000, True)
+truck2 = Truck("Volvo", "FH16", 2019, "BT2222", 2500, False)
+
+service = ServiceCenter("SuperService")
+
+service.add_vehicles(car1)
+service.add_vehicles(car2)
+service.add_vehicles(truck1)
+service.add_vehicles(truck2)
+
+service.list_all()
+service.list_electric()
+service.list_trucks_over()
+
+service.remove_vehicle(car1.plate_number)
+service.list_all()
         
